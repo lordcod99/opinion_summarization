@@ -30,11 +30,40 @@ Although not the fastest, most luxurious, or technologically advanced in the ver
  The car is comfortable and QUIET .
 """
 
-G=graphmodel.datagraph()
+# text ="""
+# The iPhone is a great device.
+# The iPhone is worth the price
+# """
 
+
+# we can say a node is valid is 
+# if average of pid < 15 according to reasearch paper 
+def validnode(psi):
+    d=15
+    l=len(psi)
+    a=0
+    for i in range(l):
+        a+=psi[i]["pid"]
+    a/=l
+    if(a<d):
+        return True
+    else:
+        return False
+
+
+
+def summarize(g):
+    for word in g:
+        if(validnode(g[word]["psi"])):  #we will check each is node is a valid node or not 
+            print(word)
+
+
+
+
+G=graphmodel.datagraph()
 sentences = sent_tokenize(text)
-G.buildGraph(sentences)
-G.p()
+G=G.buildGraph(sentences)
+summarize(G)
 
 
 

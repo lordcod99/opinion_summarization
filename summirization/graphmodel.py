@@ -14,7 +14,7 @@ class datagraph:
                 if(words[j] in self._graph):                             #if node existed we add psi
                     self._graph[words[j]]['psi'].append({'sid':i+1,'pid':j+1})
                 else:
-                    self._graph[words[j]]={"arc":[],"psi":[]}           #else create new note and add psi
+                    self._graph[words[j]]={"arc":[],"psi":[]}           #else create new node and add psi
                     self._graph[words[j]]['psi'].append({'sid':i+1,'pid':j+1})
 
 
@@ -24,6 +24,12 @@ class datagraph:
                     else:
                         self._graph[words[j-1]]['arc'].append(words[j])
         return self._graph
+
+    
+
+
+
+    
     def p(self):
         for key,value in self._graph.items():
             print(key,":",value)

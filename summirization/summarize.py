@@ -1,34 +1,9 @@
 # from winreg import HKEY_LOCAL_MACHINE
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
-
-# Git Hub
-
-def tok(data):
-
-    stop_words = stopwords.words('english')
-    stop_words.append(',')
-    stop_words.append("'")
-    stop_words.append('.')
-    words = []
-    for s in data:
-       w=word_tokenize(s)
-       for x in w:
-         if x.lower() not in stop_words and x[0] != "'":
-           words.append(x)
-
-    return words
-
-def get_freq(data):
-  freq=dict()
-  for word in data:
-    if word in freq:
-      freq[word] +=1
-    else:
-      freq[word]=1
-  return freq
+# import nltk
+# from nltk.corpus import stopwords
+from nltk.tokenize import sent_tokenize
+import graphmodel
+# from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 
 
@@ -55,31 +30,105 @@ Although not the fastest, most luxurious, or technologically advanced in the ver
  The car is comfortable and QUIET .
 """
 
+# text ="""
+# The iPhone is a great device.
+# The iPhone is worth the price
+# """
+
+
+# we can say a node is valid is 
+# if average of pid < 15 according to reasearch paper 
+def validnode(psi):
+    d=15
+    l=len(psi)
+    a=0
+    for i in range(l):
+        a+=psi[i]["pid"]
+    a/=l
+    if(a<d):
+        return True
+    else:
+        return False
+
+
+
+def summarize(g):
+    for word in g:
+        if(validnode(g[word]["psi"])):  #we will check each is node is a valid node or not 
+            print(word)
+
+
+
+
+G=graphmodel.datagraph()
 sentences = sent_tokenize(text)
-sid = SentimentIntensityAnalyzer()
-pos = []
-neg = []
+G=G.buildGraph(sentences)
+summarize(G)
 
-for s in sentences:
-  p = sid.polarity_scores(s)['pos']
-  n = sid.polarity_scores(s)['neg']
-  if p>n:
-    pos.append(s)
-  else:
-    neg.append(s)
 
-pos_words = tok(pos)
-neg_words = tok(neg)
 
-pos_wrds_freq = get_freq(pos_words)
-neg_wrds_freq = get_freq(neg_words)
 
-pos_wrds_freq = sorted(pos_wrds_freq.items(),key=lambda w:w[1],reverse = True)
-neg_wrds_freq = sorted(neg_wrds_freq.items(),key=lambda w:w[1],reverse = True)
 
-print(pos_wrds_freq)
-print("\n========================================================\n")
-print(neg_wrds_freq)
+
+
+
+
+
+
+
+
+
+# def tok(data):
+
+#     stop_words = stopwords.words('english')
+#     stop_words.append(',')
+#     stop_words.append("'")
+#     stop_words.append('.')
+#     words = []
+#     for s in data:
+#        w=word_tokenize(s)
+#        for x in w:
+#          if x.lower() not in stop_words and x[0] != "'":
+#            words.append(x)
+
+#     return words
+
+
+
+
+# def get_freq(data):
+#   freq=dict()
+#   for word in data:
+#     if word in freq:
+#       freq[word] +=1
+#     else:
+#       freq[word]=1
+#   return freq
+# sentences = sent_tokenize(text)
+# sid = SentimentIntensityAnalyzer()
+# pos = []
+# neg = []
+
+# for s in sentences:
+#   p = sid.polarity_scores(s)['pos']
+#   n = sid.polarity_scores(s)['neg']
+#   if p>n:
+#     pos.append(s)
+#   else:
+#     neg.append(s)
+
+# pos_words = tok(pos)
+# neg_words = tok(neg)
+
+# pos_wrds_freq = get_freq(pos_words)
+# neg_wrds_freq = get_freq(neg_words)
+
+# pos_wrds_freq = sorted(pos_wrds_freq.items(),key=lambda w:w[1],reverse = True)
+# neg_wrds_freq = sorted(neg_wrds_freq.items(),key=lambda w:w[1],reverse = True)
+
+# print(pos_wrds_freq)
+# print("\n========================================================\n")
+# print(neg_wrds_freq)
 
 # print(pos_words)
 # print("\n========================================================\n")

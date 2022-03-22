@@ -1,5 +1,4 @@
 import nltk
-import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
@@ -20,6 +19,12 @@ def crNode(name,sid,pid,prev):
     tempNode = Graph(name,pos,sid,pid,prev)
     return tempNode
 
+def linePointer(num):
+
+    passVar = "line" + str(num)
+    lnPoint = Graph(passVar,"LP",0,0,"null")
+    return lnPoint
+
 def tok(data):
 
     stop_words = stopwords.words('english')
@@ -35,9 +40,8 @@ def tok(data):
 
     return words
 
-listNodes = {}
+lineNum = 0
 
-f = open('sumtest.txt','r')
-for i in f:
-    line = i.split()
-    print(line)
+listNodes = {}
+listPointers = {}
+

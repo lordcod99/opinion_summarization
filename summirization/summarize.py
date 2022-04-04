@@ -38,7 +38,7 @@ Although not the fastest, most luxurious, or technologically advanced in the ver
 
 # we can say a node is valid is 
 # if average of pid < 15 according to reasearch paper 
-def validnode(psi):
+def validstart_node(psi):
     d=15
     l=len(psi)
     a=0
@@ -51,11 +51,27 @@ def validnode(psi):
         return False
 
 
+def findpath():
+    if(1):
+        pass
+
+
+
+
+
+
 
 def summarize(g):
     for word in g:
-        if(validnode(g[word]["psi"])):  #we will check each is node is a valid node or not 
+        if(validstart_node(g[word]["psi"])):  #we will check each is node is a valid node or not 
             print(word)
+            pathlen=1
+            pathscore=0
+
+            paths=[]
+
+            findpath()
+
 
 
 

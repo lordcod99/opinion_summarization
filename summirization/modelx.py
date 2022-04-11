@@ -1,8 +1,5 @@
 #basic model
-import re
-import socketserver
 import nltk
-from numpy import true_divide
 
 
 class Node:
@@ -30,24 +27,37 @@ def is_valid_start(psi):
 
 
 def is_valid_end(word):
-    ven=['.',',',"but","yet"]
+    ven=['.',',',"but","yet","?","!","!!","!!!"]
     if ven.count(word)>0:
         return True
     else:
         return False
 
-def find_path(wp,word ,info ,score ,path_len):
-    sentance = word
+
+def calc_rdncy(wp,sentence,rdncy):
+    words = nltk.word_tokenize(sentence)
+    id_list=[]
+    for word in words:
+        pass
+
+    
+    
+
+def find_path(wp,word ,info ,score ,path_len ,sentence):
     rdncy=len(info.id)
     dr=3
     if rdncy>= dr:
-        if(is_valid_end(word)):
-            return sentance
-    for ngb in info.link:
-        path_len += 1
-        score += 1
-        sentance+=ngb
-        find_path(wp,ngb,wp[ngb],score,path_len)
+        if(is_valid_end(word) or path_len>8):
+            score = score/path_len
+            return [sentence,score]
+
+        for ngb in info.link:
+            path_len += 1
+            rdncy=calc_rdncy(wp,sentence,rdncy)
+            score += 1
+            sentence=sentence+" "+ngb
+            print(sentence)
+            find_path(wp,ngb,wp[ngb],score,path_len,sentence)
 
 
 
@@ -76,7 +86,8 @@ for x in range(len(v)):
         if v[x][y][0] not in wp.keys(): wp[v[x][y][0]] = Node(v[x][y][0],v[x][y][1],x+1,y+1)
         else: wp[v[x][y][0]].id.append([x+1,y+1])
         if y == 0: lp[x+1].link.append(v[x][y][0])
-        else: wp[v[x][y-1][0]].link.append(v[x][y][0])
+        elif v[x][y][0] not in wp[v[x][y-1][0]].link : wp[v[x][y-1][0]].link.append(v[x][y][0])
+        # else: wp[v[x][y-1][0]].link.append(v[x][y][0])
 
 # for x in wp: print(wp[x].name,'\t',wp[x].id,'\t',wp[x].link)
 
@@ -89,7 +100,11 @@ for word , info in wp.items():
     if(is_valid_start(info.id)):
         path_len=1
         score =0
-        summary.append(find_path(wp,word,info,score,path_len))
+        sentence=word
+        summary.append(find_path(wp,word,info,score,path_len,sentence))
+
+
+print(summary)
 
 
 

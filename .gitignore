@@ -1,0 +1,13 @@
+# for virtual env
+/work 
+.env
+myvenv/
+venv/
+
+/datasets
+
+test.py
+
+# python 
+__pycache__
+

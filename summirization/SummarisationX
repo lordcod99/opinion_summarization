@@ -1,0 +1,115 @@
+from threading import local
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize, sent_tokenize 
+
+class Node:
+
+     def __init__(self,name,pos,sid,pid):
+
+        self.name = name
+        self.pos = pos
+        self.id = [[sid,pid]]
+        self.link = []
+
+def dfs(wp,sn,ven):
+    stack = [sn]
+    vis = [sn]
+    vsen = []
+    while stack:
+        ch = False
+        for x in wp[stack[-1]].link:
+            if x in ven:
+                if stack not in vsen:
+                    vsen.append(stack.copy())
+                    break
+        for x in wp[stack[-1]].link:
+            if x not in ven and x not in vis:
+                ch = True
+                stack.append(x)
+                vis.append(x)
+                break
+        if ch == False:
+            stack.pop()
+        print(vsen)
+    return vsen
+
+pvsen=[]
+
+def back(ls,ven):
+    if ls[-1] in ven:
+        pvsen.append(ls)
+    else:
+        n=ls[-1]
+        for node in wp[n].link:
+            if node not in ls:
+                back(ls+[node],ven)
+
+    
+
+
+
+f = open('file.txt','r')   
+v = []
+
+alen = 0
+flen = 0
+
+for x in f:
+    flen += 1 
+    y = nltk.word_tokenize(x.lower())
+    alen += len(y)
+    z = nltk.pos_tag(y)
+    v.append(z)
+
+f.close()
+
+avglen = alen/flen
+
+lp = {}
+wp ={}
+
+for x in range(len(v)):
+    lp[x+1] = Node(x+1,"PO",x+1,0)
+    for y in range(len(v[x])):
+        if v[x][y][0] not in wp.keys(): wp[v[x][y][0]] = Node(v[x][y][0],v[x][y][1],x+1,y+1)
+        else: wp[v[x][y][0]].id.append([x+1,y+1])
+        if y == 0: lp[x+1].link.append(v[x][y][0])
+        elif v[x][y][0] not in wp[v[x][y-1][0]].link: wp[v[x][y-1][0]].link.append(v[x][y][0])
+
+ven = [".",",","but","yet",";",":","?","!"]
+vsn = []
+
+pvsn = int(avglen/3)
+
+for x in wp:
+    cc = 0
+    for y in wp[x].id:
+        cc += y[1]
+    if cc/len(wp[x].id) <= pvsn:
+        vsn.append(wp[x].name)
+
+for x in ven:
+    if x in wp.keys():
+        if wp[x].link:
+            for y in wp[x].link:
+                for z in vsn:
+                    if y not in wp[z].link and wp[y].pos != wp[z].pos:
+                        wp[z].link.append(y)
+
+# vsenx = []
+# vsen = []
+
+# for x in vsn:
+#     vsenx.append(dfs(wp,x,ven))
+
+# for x in vsenx:
+#     if x:
+#         for y in x:
+            # print(y)
+
+for x in vsn:
+    back([x],ven)
+
+for x in pvsen:
+    print(x)

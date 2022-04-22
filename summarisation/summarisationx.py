@@ -2,6 +2,7 @@ import string
 import nltk
 from nltk.corpus import stopwords
 from nltk.corpus import wordnet
+from rouge import Rouge
 
 
 
@@ -16,7 +17,7 @@ class Node:
         # self.count =  count
 
 
-f = open('file.txt','r')
+f = open('data.txt','r')
 data = []
 
 for l in f:
@@ -140,7 +141,7 @@ for word in word_count:
             rqd = 0
             for i in range(pid,len(line)):
                 if line[i] in  ven:
-                    str+='.'
+                    str+=".\n"
                     break
                 str+=(line[i]+" ")
                 ll+=1
@@ -152,16 +153,37 @@ for word in word_count:
                         rqd+=1
                 
             if(ll>2 ):
-                summary.append(str)
-                c+=1
+                check = False
+                for i in range(len(summary)):
+                    if(summary[i].find(str) != -1): 
+                        check = True
+                        break
+                if(check == False):
+                    summary.append(str)
+                    c+=1
         if c>5:
             break
 
-
-
-# print(stopwords)
 for s in summary:
     print(s)
+
+
+print("\n================= rouge score ======================\n")
+
+sf = open('summary.txt', 'w')
+sf.writelines(summary)
+
+sf.close()
+
+score = Rouge().get_scores('summary.txt','reference.txt',avg=True)
+
+for type, values in score.items():
+    print(type," ",values)
+
+
+
+
+
 
 
 

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <title>Opinoser</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" >
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+        
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        
+        {% block extra_head %}
+        {% endblock %} 
+        {% block css%}
+        {% endblock %} 
+
+
+    </head>
+    <body>
+        
+        <div class="home_top" id="header" style="margin-top:5px;">
+          <a href="/" style="text-decoration:none"><p id="main_name">Opinion Smmariser</p></a>
+         
+        </div>
+
+        <div class="empty">
+        </div>
+
+        
+
+        <div class="home_body">
+         
+
+          <div class = "explanation">
+
+            <p style = "text-align: center;">
+              Opinion summarizer is a tool to summarize opinion data opinions may be  product, place reviews 
+              and many. we used efficient algorithms to extract most discussed content given in the data 
+              so most common thoughts of that are given by reviewers will be given as oputput 
+            </p>
+
+
+          </div>
+            
+          
+          <div calss="openarea">
+            <div class="input_data">
+              <form method = 'POST'>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="generate"/>
+  
+              </form> 
+  
+  
+            </div>  
+
+          </div>
+
+          {% if sg %}
+          <div  calss = summary>
+            <h1 style="text-align:center;">summary:</h1>
+            <ul class = 's_lines' style="list-style-type: circle;">
+              {% for line in smry %}
+              <li>{{line}}</li>
+              <br>
+              {% endfor %}
+            </ul>
+            <a href="/"><button class = "new">Enter new data</button></a>
+          {% endif %}  
+
+          </div>
+
+        </div>
+            {% block content %}
+            {% endblock %}
+        </div>
+
+    </body>
+</html>
+

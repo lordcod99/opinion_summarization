@@ -16,7 +16,7 @@ def home_veiw(request):
         # print(input.input_data)
         smry = Summary.get_summary(input.input_data)
         sg = True
-        form =  inputForm()
+        # form =  inputForm()
 
         ctx['smry'] =  smry
     ctx['form'] = form

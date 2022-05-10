@@ -22,8 +22,8 @@
     </head>
     <body>
         
-        <div class="home_top" id="header" style="margin-top:5px;">
-          <a href="/" style="text-decoration:none"><p id="main_name">Opinion Smmariser</p></a>
+        <div class="home_top" id="header" style="margin-top:20px;">
+          <a href="/" style="text-decoration:none"><p id="main_name">O P I N I O N &emsp; S U M M A R I S E R</p></a>
          
         </div>
 
@@ -38,9 +38,11 @@
           <div class = "explanation">
 
             <p style = "text-align: center;">
+              <b><i>
               Opinion summarizer is a tool to summarize opinion data opinions may be  product, place reviews 
               and many. we used efficient algorithms to extract most discussed content given in the data 
-              so most common thoughts of that are given by reviewers will be given as oputput 
+              so most common thoughts of that are given by reviewers will be given as output
+              </i></b> 
             </p>
 
 
@@ -62,8 +64,8 @@
           </div>
 
           {% if sg %}
-          <div  calss = summary>
-            <h1 style="text-align:center;">summary:</h1>
+          <div  calss = "summary">
+            <h1 style="text-align:center;">SUMMARY</h1>
             <ul class = 's_lines' style="list-style-type: circle;">
               {% for line in smry %}
               <li>{{line}}</li>

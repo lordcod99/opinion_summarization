@@ -5,7 +5,7 @@ myvenv/
 venv/
 
 /datasets
-
+summarisation/glove.6B/
 test.py
 test/
 
